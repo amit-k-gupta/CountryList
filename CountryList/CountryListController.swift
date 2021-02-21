@@ -34,6 +34,9 @@ class CountryListController: UIViewController {
             case .success(let countries):
                 self?.countryList = countries
             case .failure(let error):
+                //  Ideally we shouldn't update if current fetch failed due to any issue.
+                //  But the requirement was to update the list everytime
+                //  That is why even storing of the list in Coredata/UserDefaults has been avoided
                 self?.countryList.removeAll()
                 self?.showAlert(error: error)
             }
@@ -70,5 +73,13 @@ extension CountryListController: UITableViewDataSource {
             })
         }
         return cell
+    }
+}
+
+extension CountryListController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let provinceVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "provinces") as! ProvinceListController
+        provinceVC.selectedCountry  =   countryList[indexPath.row].countryId
+        self.present(provinceVC, animated: true, completion: nil)
     }
 }

@@ -1,21 +1,19 @@
 //
-//  DCGNetworkOperation.swift
-//  DiningClubGroup Staging
+//  CLNetworkOperation.swift
+//  CountryList
 //
-//  Created by Amit Kumar Gupta on 07/04/19.
+//  Created by Amit Kumar Gupta on 20/02/21.
 //  Copyright © 2019 Harman Connected Services. All rights reserved.
 //
 
 import Foundation
 import Alamofire
 
-class DCGNetworkOperation<T>: DCGBaseOperation where T: Codable {
-
-    var isEventCapture = false
+class CLNetworkOperation<T> where T: Codable {
 
     func performOperation (_ url: String, type: Alamofire.HTTPMethod, params: JSON? = nil, completionHandler: @escaping (Alamofire.Result<T>) -> Void) {
-        let theHeader = isEventCapture ? self.eventToken! : self.jwtToken!
-        Alamofire.request(url, method: type, parameters: params, encoding: JSONEncoding.default, headers: theHeader).responseData( completionHandler: { (response) in
+
+        Alamofire.request(url, method: type, parameters: params, encoding: JSONEncoding.default).responseData( completionHandler: { (response) in
             switch response.result {
             case .success(let data) :
                 if let statusCode = response.response?.statusCode {

@@ -1,9 +1,9 @@
 ////
-//  Errors.swift
-//  Hi Mum Said Dad
+//  CLErrors.swift
+//  CountryList
 //
-//  Created by Hayden Young on 15/11/2017.
-//  Copyright © 2017 Hi Mum Said Dad. All rights reserved.
+//  Created by Amit Kumar Gupta on 20/02/21.
+//  Copyright © 2019 Harman Connected Services. All rights reserved.
 //
 
 import Foundation
@@ -30,20 +30,11 @@ public enum NetworkError: Error, CustomStringConvertible {
     /// Incorrect data returned from the server.
     case incorrectDataReturned
 
-    /// Authentication required
-    case authenticationRequired
-
-    /// Customer access token is invalid. Somebody logged in on another device.
-    case invalidAccessToken
-
     /// Resource was not recognized
     case notRecognized
 
     /// Resource not found
     case resourceNotFound
-
-    /// Request was aborted
-    case aborted
 
     case custom(message: String)
 
@@ -60,10 +51,6 @@ public enum NetworkError: Error, CustomStringConvertible {
         switch responseCode {
         case 400:
             self = .notRecognized
-        case 401:
-            self = .authenticationRequired
-        case 403:
-            self = .invalidAccessToken
         case 404:
             self = .resourceNotFound
         case 500...599:
@@ -80,54 +67,42 @@ public enum NetworkError: Error, CustomStringConvertible {
     public var title: String {
         switch self {
         case .unknown:
-            return L10n.networkErrorProblem
+            return "There was a problem with your request"
         case .notConnectedToInternet:
-            return L10n.networkErrorNotConnectedToInternetTitle
+            return "Resource Not Found"
         case .notReachedServer:
-            return L10n.networkErrorServiceTimedOutTitle
+            return "Service timed out"
         case .serviceUnavailable:
-            return L10n.networkErrorServiceUnavailableTitle
+            return "Service temporarily unavailable"
         case .incorrectDataReturned:
-            return L10n.networkErrorIncorrectDataReturned
-        case .authenticationRequired:
-            return L10n.networkErrorAuthenticationRequired
-        case .invalidAccessToken:
-            return L10n.networkErrorInvalidTokenTitle
-        case .resourceNotFound:
-            return L10n.networkErrorResourceNotFound
+            return "Incorrect data returned"
         case .notRecognized:
-            return L10n.networkErrorResourceNotFound
-        case .aborted:
-            return L10n.networkErrorIncorrectDataReturned
+            return "Resource Not Found"
         case .custom(let message):
-            return message.isEmpty ? L10n.networkErrorProblem : message
+            return message.isEmpty ? "There was a problem with your request" : message
+        case .resourceNotFound:
+            return "Resource Not Found"
         }
     }
 
     public var description: String {
         switch self {
         case .unknown:
-            return L10n.networkErrorProblem
+            return "There was a problem with your request"
         case .notConnectedToInternet:
-            return L10n.networkErrorNotConnectedToInternetBody
+            return "Please reset your connection and try again"
         case .notReachedServer:
-            return L10n.networkErrorServiceTimedOutBody
+            return "Please try again later"
         case .serviceUnavailable:
-            return L10n.networkErrorServiceUnavailableBody
+            return "Please try again shortly."
         case .incorrectDataReturned:
-            return L10n.networkErrorIncorrectDataReturned
-        case .authenticationRequired:
-            return L10n.networkErrorAuthenticationRequired
-        case .invalidAccessToken:
-            return L10n.networkErrorInvalidTokenBody
-        case .resourceNotFound:
-            return L10n.networkErrorResourceNotFound
+            return "Incorrect data returned"
         case .notRecognized:
-            return L10n.networkErrorResourceNotFound
-        case .aborted:
-            return L10n.networkErrorIncorrectDataReturned
+            return "Resource Not Found"
         case .custom(let message):
-            return message.isEmpty ? L10n.networkErrorProblem : message
+            return message.isEmpty ? "There was a problem with your request" : message
+        case .resourceNotFound:
+            return "No provinces were found belonging to the selected country!"
         }
     }
 
